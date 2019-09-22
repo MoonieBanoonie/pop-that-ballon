@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Pop the Balloon!</title>
+
+    <h1><center>POP THAT BALLOON!</center></h1>
+
+    <style>
+
+      .balloon{
+        position: absolute;
+        bottom: 0;
+        left: auto;
+        padding: 10px;
+      }
+
+      .inflatable{
+        width: 180px;
+        height: 200px;
+        background-color: pink;
+        opacity: 0.8;
+        border-radius: 50%;
+
+      }
+
+      .triangle{
+        width: 0;
+        opacity: 0.8;
+        border-left: 25px solid transparent;
+        border-right: 25px solid transparent;
+        border-bottom: 50px solid pink;
+        margin-left: 60px;
+      }
+
+        .string{
+        width: 5px;
+        height: 150px;
+        background-color: black;
+        margin-left: 83px;
+
+      }
+
+      html{
+        cursor: crosshair;
+      }
+
+      .counter{
+        display: block;
+        border: solid black;
+        width: 70px;
+        text-align: center;
+        font-size: 50px;
+        font-family: courier, sans-serif;
+      }
+
+      h1{
+        font-family: courier, sans-serif;
+        font-size: 50px;
+      }
+
+
+    </style>
+  </head>
+  <body background = https://i.pinimg.com/originals/81/da/11/81da11aa4975333187ebdbcef26aef41.jpg>
+
+    <div class="counter">0</div>
+    <div class="balloon">
+      <div class="inflatable"></div>
+      <div class="triangle"></div>
+      <div class="string"></div>
+    </div>
+
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+
+  var balloon = $(".balloon");
+    var counter = 0;
+
+
+    function start() {
+      for(var i=0; i<20; i++){
+        var balloonCopy = balloon.clone();
+
+        var randomLeft = counter * Math.random() * 200
+
+        balloonCopy.css({ center: randomLeft})
+        balloonCopy.appendTo("body");
+
+        var randomDestination = 100 * Math.random()
+
+        var randomSpeed = 10 + Math.random() * 10000
+        balloonCopy.animate({
+          bottom: '-100%',
+          left: randomDestination +'%'
+        }, randomSpeed);
+
+        balloonCopy.appendTo("body");
+        balloonCopy.click(function(){
+          pop_sound.play();
+          $(this).remove();
+          counter = counter + 1;
+          $(".counter").html(counter);
+        });
+        balloonCopy.animate({ bottom: "100%", left: "50%", right: "50%"}, 10000);
+      };
+
+      balloon.remove();
+
+    }
+
+    function preloadPopSound(){
+      var audio = new Audio("plopsound.mp3");
+      audio.preload = "auto";
+      $(audio).on("loadeddata", start);
+      audio.currentTime = 0;  // jQuery checking
+      return audio;
+    }
+    var pop_sound = preloadPopSound();
+
+
+
+
+</script>
+</html>
